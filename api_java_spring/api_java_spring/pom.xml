@@ -53,7 +53,7 @@
 			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
 
-		<!-- JWT -->
+		<!-- JWT khi add oauth2-resource-server thì đồng thời đã add luôn nimbusds nên về mặt lí thuyết k cần add thư viện này nữa, có thể xóa-->
 		<dependency>
 			<groupId>com.nimbusds</groupId>
 			<artifactId>nimbus-jose-jwt</artifactId>
@@ -93,6 +93,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope> <!-- Chỉ sử dụng trong quá trình test -->
+		</dependency>
+
+		<!-- Authentication -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 
 	</dependencies>

@@ -4,6 +4,7 @@ import com.eve.api_java_spring.dto.request.UserCreationRequest;
 import com.eve.api_java_spring.dto.request.UserUpdateRequest;
 import com.eve.api_java_spring.dto.response.UserResponse;
 import com.eve.api_java_spring.entity.User;
+import com.eve.api_java_spring.enums.Role;
 import com.eve.api_java_spring.exception.AppException;
 import com.eve.api_java_spring.exception.ErrorCode;
 import com.eve.api_java_spring.mapper.UserMapper;
@@ -16,8 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-
-
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -29,6 +29,7 @@ public class UserService {
     // đây k phải là best practice để sử dụng inject
      UserRepository userRepository;
      UserMapper userMapper;
+     PasswordEncoder passwordEncoder;
 
     public User createUser(UserCreationRequest request) {
 
@@ -45,8 +46,17 @@ public class UserService {
         User user = userMapper.toUser(request);//sử dụng auto mapper
 
         //sử dụng bcrypt để mã hóa password
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);// độ mạnh của mã hóa thông thường thì sẽ là 10, càng lớn mật khẩu càng khó giải mã
+        //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);// độ mạnh của mã hóa thông thường thì sẽ là 10, càng lớn mật khẩu càng khó giải mã
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        //set mặt định role là USER
+        HashSet<String> roles = new HashSet<>();
+        //HashSet là một tập hợp không cho phép phần tử trùng lặp. Khi thêm vai trò mới vào roles,
+        //HashSet sẽ tự động loại bỏ bất kỳ giá trị nào đã tồn tại trước đó.
+        //Điều này đảm bảo rằng danh sách vai trò của người dùng không chứa các vai trò trùng lặp.
+        roles.add(Role.USER.name());
+
+        user.setRoles(roles);
 
         return userRepository.save(user);
     }

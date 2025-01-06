@@ -5,7 +5,9 @@ import com.eve.api_java_spring.dto.request.UserUpdateRequest;
 import com.eve.api_java_spring.dto.response.UserResponse;
 import com.eve.api_java_spring.entity.User;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
@@ -22,15 +24,15 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        User user = new User();
+        User.UserBuilder user = User.builder();
 
-        user.setUsername( request.getUsername() );
-        user.setPassword( request.getPassword() );
-        user.setFirstName( request.getFirstName() );
-        user.setLastName( request.getLastName() );
-        user.setDob( request.getDob() );
+        user.username( request.getUsername() );
+        user.password( request.getPassword() );
+        user.firstName( request.getFirstName() );
+        user.lastName( request.getLastName() );
+        user.dob( request.getDob() );
 
-        return user;
+        return user.build();
     }
 
     @Override
@@ -56,8 +58,11 @@ public class UserMapperImpl implements UserMapper {
         userResponse.lastName( user.getFirstName() );
         userResponse.id( user.getId() );
         userResponse.username( user.getUsername() );
-        userResponse.password( user.getPassword() );
         userResponse.firstName( user.getFirstName() );
+        Set<String> set = user.getRoles();
+        if ( set != null ) {
+            userResponse.roles( new LinkedHashSet<String>( set ) );
+        }
 
         return userResponse.build();
     }
