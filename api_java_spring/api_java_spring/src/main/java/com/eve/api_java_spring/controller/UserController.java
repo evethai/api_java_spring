@@ -3,6 +3,7 @@ package com.eve.api_java_spring.controller;
 import com.eve.api_java_spring.dto.request.ApiResponse;
 import com.eve.api_java_spring.dto.request.UserCreationRequest;
 import com.eve.api_java_spring.dto.request.UserUpdateRequest;
+import com.eve.api_java_spring.dto.response.UserResponse;
 import com.eve.api_java_spring.entity.User;
 import com.eve.api_java_spring.service.UserService;
 import jakarta.validation.Valid;
@@ -34,17 +35,17 @@ public class UserController {
     }
 
     @GetMapping
-    List<User> getAllUsers() {
+    List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    User getUser(@PathVariable String id) {
+    UserResponse getUser(@PathVariable String id) {
         return userService.getUserById(id);
     }
 
     @PutMapping("/{id}")
-    User updateUser(@PathVariable String id,@RequestBody UserUpdateRequest request) {
+    UserResponse updateUser(@PathVariable String id,@RequestBody UserUpdateRequest request) {
         return userService.updateUser(id,request);
     }
 

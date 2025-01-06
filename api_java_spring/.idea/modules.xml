@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/firstapi.iml" filepath="$PROJECT_DIR$/.idea/firstapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/api_java_spring.iml" filepath="$PROJECT_DIR$/.idea/api_java_spring.iml" />
     </modules>
   </component>
 </project>

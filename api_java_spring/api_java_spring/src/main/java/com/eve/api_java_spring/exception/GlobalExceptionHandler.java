@@ -25,11 +25,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        String enumKey = e.getFieldError().getDefaultMessage(); // lấy value của enum bắt trong dto
+        ErrorCode errorCode = ErrorCode.INVALID_KEY; // gán giá trị mặt định là key không đúng
+        try{
+            errorCode = ErrorCode.valueOf(enumKey); // cố gắn đọc được key nêu đúng
+        }catch (IllegalArgumentException ex){
+            //log ra lỗi
+        }
         ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setCode(400);
-        apiResponse.setMessage(e.getFieldError().getDefaultMessage());
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
         return ResponseEntity.badRequest().body(apiResponse);
     }
+    //giải thích hàm này, dùng để bắt các lỗi validation đối với model dto
 
     @ExceptionHandler(value = AppException.class)
     ResponseEntity<ApiResponse> handleAppException(AppException e) {
